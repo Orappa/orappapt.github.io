@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O Rappa PT — Tribute Band Oficial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --preto:    #0a0a0a;
+      --carvao:   #141414;
+      --cinza:    #1e1e1e;
+      --borda:    #2a2a2a;
+      --amarelo:  #f0c040;
+      --verde:    #3ddc84;
+      --branco:   #f2f2f2;
+      --medio:    #888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--preto);
+      color: var(--branco);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ---- NOISE TEXTURE overlay ---- */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.98), transparent);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.15em;
+      color: var(--amarelo);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      color: var(--branco);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--amarelo); }
+
+    /* ---- HERO ---- */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(240,192,64,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 80% 80%, rgba(61,220,132,0.05) 0%, transparent 70%);
+    }
+    /* Grafiti lines */
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 80px,
+        rgba(240,192,64,0.015) 80px,
+        rgba(240,192,64,0.015) 81px
+      );
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--verde);
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 15vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      color: var(--branco);
+      position: relative;
+    }
+    .hero-title span {
+      color: var(--amarelo);
+      display: block;
+    }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      color: var(--medio);
+      max-width: 480px;
+      position: relative;
+    }
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      position: relative;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--amarelo);
+      color: #000;
+    }
+    .btn-primary:hover { background: #ffd04a; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,192,64,0.35); }
+    .btn-outline {
+      border: 1px solid var(--borda);
+      color: var(--branco);
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--amarelo); color: var(--amarelo); transform: translateY(-2px); }
+
+    /* ---- SECTIONS ---- */
+    section { padding: 6rem 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--verde);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ---- SOBRE ---- */
+    #sobre { background: var(--carvao); }
+    .sobre-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .sobre-visual {
+      aspect-ratio: 1;
+      background: var(--cinza);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .sobre-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(240,192,64,0.08) 0%, transparent 60%);
+    }
+    .sobre-visual-inner {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 6rem;
+      color: rgba(240,192,64,0.12);
+      letter-spacing: -0.05em;
+      text-align: center;
+      line-height: 1;
+    }
+    .sobre-text p {
+      color: var(--medio);
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+    .sobre-text p strong { color: var(--branco); }
+
+    /* ---- SHOWS ---- */
+    #shows { background: var(--preto); }
+    .shows-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0; }
+    .show-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--borda);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s;
+    }
+    .show-item:first-child { border-top: 1px solid var(--borda); }
+    .show-item:hover { background: var(--carvao); padding-left: 1rem; padding-right: 1rem; margin: 0 -1rem; border-radius: 2px; }
+    .show-date {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--amarelo);
+      line-height: 1;
+    }
+    .show-date span { display: block; font-size: 0.75rem; color: var(--medio); font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .show-info strong { display: block; font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .show-info em { font-style: normal; font-size: 0.85rem; color: var(--medio); }
+    .show-action { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--verde); opacity: 0; transition: opacity 0.2s; }
+    .show-item:hover .show-action { opacity: 1; }
+
+    /* ---- GALERIA ---- */
+    #galeria { background: var(--carvao); }
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 2.5rem;
+    }
+    .galeria-item {
+      aspect-ratio: 1;
+      background: var(--cinza);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .galeria-item::after {
+      content: '↗';
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      color: var(--amarelo);
+      background: rgba(0,0,0,0.6);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .galeria-item:hover::after { opacity: 1; }
+    .galeria-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--borda);
+      letter-spacing: 0.1em;
+    }
+
+    /* ---- MÚSICA ---- */
+    #musica { background: var(--preto); }
+    .music-player {
+      background: var(--carvao);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+    }
+    .music-embed {
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    /* ---- REDES ---- */
+    #redes { background: var(--carvao); }
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .rede-card {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.75rem;
+      padding: 2rem 1rem;
+      background: var(--cinza);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      text-decoration: none;
+      color: var(--branco);
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .rede-card:hover {
+      border-color: var(--amarelo);
+      background: rgba(240,192,64,0.06);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    .rede-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .rede-name {
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .rede-handle {
+      font-size: 0.78rem;
+      color: var(--medio);
+    }
+
+    /* ---- CONTATO ---- */
+    #contato { background: var(--preto); text-align: center; }
+    #contato .section-title { color: var(--amarelo); }
+    #contato p { color: var(--medio); max-width: 520px; margin: 0 auto 2rem; }
+    .contato-email {
+      display: inline-block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--branco);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      border-bottom: 2px solid var(--amarelo);
+      padding-bottom: 0.2rem;
+      transition: color 0.2s;
+    }
+    .contato-email:hover { color: var(--amarelo); }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: #050505;
+      border-top: 1px solid var(--borda);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--medio);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--amarelo); text-decoration: none; }
+
+    /* ---- MOBILE ---- */
+    @media (max-width: 768px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+      .sobre-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .sobre-visual { display: none; }
+      .galeria-grid { grid-template-columns: repeat(2, 1fr); }
+      .show-item { grid-template-columns: 60px 1fr; }
+      .show-action { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo">O Rappa PT</a>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#shows">Shows</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#musica">Música</a></li>
+      <li><a href="#redes">Redes</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <p class="hero-eyebrow">Tribute Band Oficial</p>
+    <h1 class="hero-title">
+      O<br><span>Rappa</span><br>PT
+    </h1>
+    <p class="hero-sub">O melhor do rap nacional nos palcos de Portugal. A energia original, a letra que não esquece.</p>
+    <div class="hero-cta">
+      <a href="#shows" class="btn btn-primary">Ver Shows</a>
+      <a href="#contato" class="btn btn-outline">Contratar a Banda</a>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="container">
+      <div class="sobre-grid">
+        <div class="sobre-visual">
+          <div class="sobre-visual-inner">O<br>RAPPA<br>PT</div>
+        </div>
+        <div class="sobre-text">
+          <p class="section-label">A Banda</p>
+          <h2 class="section-title">Quem<br>Somos</h2>
+          <p>Somos a <strong>tribute band oficial do O Rappa em Portugal</strong> — um grupo de músicos apaixonados pela obra de um dos maiores nomes do rap e reggae do Brasil.</p>
+          <p>Reproduzimos com fidelidade o som, a energia e a mensagem do O Rappa, levando aos palcos portugueses clássicos como <strong>Minha Alma, Todo Camburão, Mágico de Oz</strong> e muito mais.</p>
+          <p>Disponíveis para festivais, bares, eventos corporativos e festas privadas.</p>
+          <a href="#contato" class="btn btn-primary" style="margin-top:1.5rem;">Fale Connosco</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWS -->
+  <section id="shows">
+    <div class="container">
+      <p class="section-label">Agenda</p>
+      <h2 class="section-title">Próximos<br>Shows</h2>
+      <div class="shows-list">
+        <!-- Edite os shows abaixo com as suas datas reais -->
+        <div class="show-item">
+          <div class="show-date">
+            12<span>Jul 2025</span>
+          </div>
+          <div class="show-info">
+            <strong>Festival de Verão Lisboa</strong>
+            <em>Lisboa, Portugal</em>
+          </div>
+          <span class="show-action">Info →</span>
+        </div>
+        <div class="show-item">
+          <div class="show-date">
+            19<span>Jul 2025</span>
+          </div>
+          <div class="show-info">
+            <strong>Bar Rock Café</strong>
+            <em>Porto, Portugal</em>
+          </div>
+          <span class="show-action">Info →</span>
+        </div>
+        <div class="show-item">
+          <div class="show-date">
+            02<span>Ago 2025</span>
+          </div>
+          <div class="show-info">
+            <strong>Festa de Verão — Evento Privado</strong>
+            <em>Braga, Portugal</em>
+          </div>
+          <span class="show-action">Info →</span>
+        </div>
+        <div class="show-item">
+          <div class="show-date">
+            16<span>Ago 2025</span>
+          </div>
+          <div class="show-info">
+            <strong>A confirmar</strong>
+            <em>Faro, Algarve</em>
+          </div>
+          <span class="show-action">Info →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria">
+    <div class="container">
+      <p class="section-label">Fotos</p>
+      <h2 class="section-title">Galeria</h2>
+      <p style="color:var(--medio); margin-top:0.5rem;">
+        Substitua os placeholders abaixo pelas vossas fotos reais — veja as instruções no guia.
+      </p>
+      <div class="galeria-grid">
+        <!-- Para colocar fotos reais: <img src="foto1.jpg" style="width:100%;height:100%;object-fit:cover;"> -->
+        <div class="galeria-item"><div class="galeria-placeholder">FOTO 1</div></div>
+        <div class="galeria-item"><div class="galeria-placeholder">FOTO 2</div></div>
+        <div class="galeria-item"><div class="galeria-placeholder">FOTO 3</div></div>
+        <div class="galeria-item"><div class="galeria-placeholder">FOTO 4</div></div>
+        <div class="galeria-item"><div class="galeria-placeholder">FOTO 5</div></div>
+        <div class="galeria-item"><div class="galeria-placeholder">FOTO 6</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÚSICA -->
+  <section id="musica">
+    <div class="container">
+      <p class="section-label">Ouça</p>
+      <h2 class="section-title">A Nossa<br>Música</h2>
+      <div class="music-player">
+        <!-- Cole aqui o embed do Spotify, YouTube ou SoundCloud. Exemplo do YouTube: -->
+        <p style="color:var(--medio); text-align:center; padding: 2rem 0; font-size:0.9rem;">
+          Cole aqui o seu embed do YouTube, Spotify ou SoundCloud.<br>
+          Exemplo: <code style="color:var(--amarelo);">&lt;iframe src="https://www.youtube.com/embed/SEU_ID" ...&gt;&lt;/iframe&gt;</code>
+        </p>
+        <!-- EXEMPLO (descomente e substitua o ID):
+        <div class="music-embed">
+          <iframe width="100%" height="315"
+            src="https://www.youtube.com/embed/VIDEOID"
+            title="O Rappa PT"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- REDES SOCIAIS -->
+  <section id="redes">
+    <div class="container">
+      <p class="section-label">Siga-nos</p>
+      <h2 class="section-title">Redes<br>Sociais</h2>
+      <div class="redes-grid">
+
+        <!-- INSTAGRAM -->
+        <a href="https://www.instagram.com/orappapt" target="_blank" rel="noopener" class="rede-card">
+          <div class="rede-icon">📸</div>
+          <div class="rede-name">Instagram</div>
+          <div class="rede-handle">@orappapt</div>
+        </a>
+
+        <!-- FACEBOOK (edite o URL) -->
+        <a href="https://www.facebook.com/orappapt" target="_blank" rel="noopener" class="rede-card">
+          <div class="rede-icon">📘</div>
+          <div class="rede-name">Facebook</div>
+          <div class="rede-handle">O Rappa PT</div>
+        </a>
+
+        <!-- YOUTUBE (edite o URL) -->
+        <a href="https://www.youtube.com/@orappapt" target="_blank" rel="noopener" class="rede-card">
+          <div class="rede-icon">▶️</div>
+          <div class="rede-name">YouTube</div>
+          <div class="rede-handle">@orappapt</div>
+        </a>
+
+        <!-- SPOTIFY (edite o URL) -->
+        <a href="https://open.spotify.com/artist/SEUID" target="_blank" rel="noopener" class="rede-card">
+          <div class="rede-icon">🎵</div>
+          <div class="rede-name">Spotify</div>
+          <div class="rede-handle">O Rappa PT</div>
+        </a>
+
+        <!-- TIKTOK (edite o URL) -->
+        <a href="https://www.tiktok.com/@orappapt" target="_blank" rel="noopener" class="rede-card">
+          <div class="rede-icon">🎬</div>
+          <div class="rede-name">TikTok</div>
+          <div class="rede-handle">@orappapt</div>
+        </a>
+
+        <!-- WHATSAPP (edite o número) -->
+        <a href="https://wa.me/351900000000" target="_blank" rel="noopener" class="rede-card">
+          <div class="rede-icon">💬</div>
+          <div class="rede-name">WhatsApp</div>
+          <div class="rede-handle">Contacto direto</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="container">
+      <p class="section-label">Booking</p>
+      <h2 class="section-title">Contratar<br>a Banda</h2>
+      <p>Para shows, festivais, eventos corporativos ou privados, entre em contacto diretamente.</p>
+      <a href="mailto:orappapt@email.com" class="contato-email">orappapt@email.com</a>
+      <br><br>
+      <a href="https://wa.me/351900000000" target="_blank" class="btn btn-outline" style="margin-top:1rem;">
+        💬 WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 O Rappa PT — Tribute Band. Todos os direitos reservados.</p>
+    <p style="margin-top:0.5rem;">Site criado profissionalmente por <a href="#hero">O Rappa PT</a></p>
+  </footer>
+
+</body>
+</html>
